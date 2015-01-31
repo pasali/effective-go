@@ -325,65 +325,65 @@
 
 - Ayrılan alanın ilklendirilmesi gereken durumlarda olabilir
 
-	func NewFile(fd int, name string) *File {
-	    if fd < 0 {
-		return nil
-	    }
-	    f := new(File)
-	    f.fd = fd
-	    f.name = name
-	    f.dirinfo = nil
-	    f.nepipe = 0
-	    return f
-	}
+		func NewFile(fd int, name string) *File {
+		    if fd < 0 {
+			return nil
+		    }
+		    f := new(File)
+		    f.fd = fd
+		    f.name = name
+		    f.dirinfo = nil
+		    f.nepipe = 0
+		    return f
+		}
 
 - En basit şekilde(`composite literal`) kullanarakda aynı işlemi gerçekleştirebiliriz
 
-	func NewFile(fd int, name string) *File {
-	    if fd < 0 {
-		return nil
-	    }
-	    f := File{fd, name, nil, 0}
-	    return &f
-	}
+		func NewFile(fd int, name string) *File {
+		    if fd < 0 {
+			return nil
+		    }
+		    f := File{fd, name, nil, 0}
+		    return &f
+		}
 
 - C'nin tersine Go'da yerel değişkenin adresini dönebilirsiniz
 - `composite literal` her seferinde bellekten yeni bir alan ayırır.
 - Değişken fonksiyondan çıkıldıktan sonrada hafızada kalacaktır
 
-	return &File{fd, name, nil, 0}
+		return &File{fd, name, nil, 0}
 
 - Yukarıdaki şekilde fonksiyonu dahada sade bir hale getirebiliriz
 - Paremeteler verilirken sıralı şekilde verilmelidir
 - Ya da `değişken_ismi: değer`şeklinde istediğiniz sırada verebilirsiniz
 
-	return &File{fd: fd, name: name}
+		return &File{fd: fd, name: name}
 
 - Aynı şekilde array, slice, map gibi veri türlerinede oluşturabilirsiniz
 
-	a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
-	s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
-	m := map[int]string{Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+		a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+		s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
+		m := map[int]string{Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
 
 ## `make` ile bellek ayırma
 
 - `make(T, args)`, `new(T)`'den farklı olarak ayırdığı alını ilkler ve T tipinde bir değer döner(\*T değil)
 - Örneğin:
 	
-	make([]int, 10, 100)
+		make([]int, 10, 100)
 
 - Bellekte 100 int'lik bir alan ayırır, sonra 100 intlik dizinin ilk 10 elemanını işaret eden, boyutu 10 olan ve 100 kapasiteli bir `slice` oluşturur
 - Aşağıdaki örnekte `new` ile `make`'in arasındaki farkı daha iyi anlayabiliriz:
 
-	var p *[]int = new([]int)       // slice veriyapısı oluşturuyor; *p == nil; nadiren kullanışlı
-	var v  []int = make([]int, 100) // 100 karakterlik bir int dizisine işaret eden bir v slice'ı oluşturur
+		var p *[]int = new([]int)       // slice veriyapısı oluşturuyor; *p == nil; nadiren kullanışlı
+		var v  []int = make([]int, 100) // 100 karakterlik bir int dizisine işaret eden bir v slice'ı oluşturur
 
-	// Gereksiz karmaşık bellek ayırma:
-	var p *[]int = new([]int)
-	*p = make([]int, 100, 100)
+		// Gereksiz karmaşık bellek ayırma:
+		var p *[]int = new([]int)
+		*p = make([]int, 100, 100)
 
-	// Idiomatic:
-	v := make([]int, 100)
+		// Idiomatic:
+		v := make([]int, 100)
 
 - `make` sadece map, slice, channel için kullanılabilir. Ve pointer dönmez.
 
@@ -398,15 +398,15 @@
 
 - C'deki gibi kullanmak isterseniz
 
-	func Sum(a *[3]float64) (sum float64) {
-	    for _, v := range *a {
-		sum += v
-	    }
-	    return
-	}
+		func Sum(a *[3]float64) (sum float64) {
+		    for _, v := range *a {
+			sum += v
+		    }
+		    return
+		}
 
-	array := [...]float64{7.0, 8.5, 9.1}
-	x := Sum(&array)  // adres öperatörüne dikkat edin
+		array := [...]float64{7.0, 8.5, 9.1}
+		x := Sum(&array)  // adres öperatörüne dikkat edin
 
 - Yukarıdaki kullanımda idiomatic bir yaklaşım değil. Go'da yaygın olarak slice'lar kullanılır
 
