@@ -19,7 +19,7 @@
 
 - Bütün go standart kütüphaneleri `gofmt` ile formatlanmıştır
 - Go'da girintileme için tab kullanılıyor
-- Herahngi bir satır uzunluğu limiti bulunmuyor
+- Herhangi bir satır uzunluğu limiti bulunmuyor
 - C ve Java'ya göre söz diziminde daha az parantez kullanıyor
 
 
