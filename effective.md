@@ -26,7 +26,7 @@
 ## Yorum
 
 - C stili blok(/\*\*/) ve satır(//) şeklinde açıklama yazılabiliyor
-- Blok açıklama satırları `paket` tanımlamlarında kullanılıyor
+- Blok açıklama satırları `paket` tanımlamalarında kullanılıyor
 - `paket` içeriği ile ilgili dokümantasyon oluşturulurken blok açıklamalarından yararlanıyor
 
 
@@ -34,7 +34,7 @@
 
 - Değişken isimleri konvansiyon olarak `mixedCaps` ya da `MixedCaps` şeklinde olmalı
 - Go'da metodların private ya da public olmasını isimleri belirliyor
-- Büyük harfle başlayan metodlar public,  küçük harfle başlayanlar ise private 
+- Büyük harfle başlayan metodlar public, küçük harfle başlayanlar ise private 
 
 		 Topla(a int, b int)   // public
 		 topla(a int, b int)   // private
@@ -42,12 +42,12 @@
 
 ### Getter/Setter
 
--  Go 'da getter ve setter yapısı yok 
+-  Go'da getter ve setter yapısı yok 
 - `owner` adında bir değişken için `getOwner` değil `Owner` adında bir metod yazmak yeterli
 
 ### Interface isimleri
 
-- Tek metodluk interface'ler metod_ismi + `er` şeklinde isimlendirilebilir(Reader, Writer)
+- Tek metodluk interface'ler metod_ismi + `er` şeklinde isimlendirilebilir (Reader, Writer)
 
 ## Noktalı virgül
 
@@ -82,7 +82,7 @@
 		}
 		codeUsing(f)
 
-- Aşağıdaki örnek kod akışında koşullar sağlanmadığı durumda `return`'lar devereye girip akışı bitirecek.
+- Aşağıdaki örnek kod akışında koşullar sağlanmadığı durumda `return`'lar devreye girip akışı bitirecek.
 
 		f, err := os.Open(name)
 		if err != nil {
@@ -121,7 +121,7 @@
     		sum += i
 		}
 
-- Array,map,slice, string üzerinde iterasyon yapmanız gerekiyorsa `range` fonksiyonu oldukça kullanışlı
+- Array, map, slice, string üzerinde iterasyon yapmanız gerekiyorsa `range` fonksiyonu oldukça kullanışlı
 
 		for key, value := range oldMap {
    			 newMap[key] = value
@@ -188,7 +188,7 @@
 		}
 
 - Go'da `break`, `switch`'i sonlardırmak için kullanılabilir
-- Döngü ya da `swtich`'in hangisinin sonlanacağına etiket kullanılarak karar verilebilir
+- Döngü ya da `switch`'in hangisinin sonlanacağına etiket kullanılarak karar verilebilir
 		
 		Loop:
 			for n := 0; n < len(src); n += size {
@@ -278,7 +278,7 @@
 
 ## Defer
 
-- `defer`  verilen fonksiyonun, `defer`'i çağıran fonksiyondan `return` edilince çağrılmasını sağlar
+- `defer` verilen fonksiyonun, `defer`'i çağıran fonksiyondan `return` edilince çağrılmasını sağlar
 
 		// Dosya içeriğini string olarak döner.
 		func Contents(filename string) (string, error) {
@@ -318,7 +318,7 @@
 
 - Bellek ayırma iki fonksiyon yardımı ile yapılabilir. `new` ve `make`
 - `new` ile ayırılan alan verilen tipin sıfırı ile ilklendirilir
-- `new`  ayırılan alanın adresini döner
+- `new` ayrılan alanın adresini döner
 
 	p := new(SyncedBuffer)  //  *SyncedBuffer
 	var v SyncedBuffer      //   SyncedBuffer
@@ -337,7 +337,7 @@
 		    return f
 		}
 
-- En basit şekilde(`composite literal`) kullanarakda aynı işlemi gerçekleştirebiliriz
+- En basit şekilde(`composite literal`) kullanarakta aynı işlemi gerçekleştirebiliriz
 
 		func NewFile(fd int, name string) *File {
 		    if fd < 0 {
@@ -353,13 +353,13 @@
 
 		return &File{fd, name, nil, 0}
 
-- Yukarıdaki şekilde fonksiyonu dahada sade bir hale getirebiliriz
+- Yukarıdaki şekilde fonksiyonu daha da sade bir hale getirebiliriz
 - Paremeteler verilirken sıralı şekilde verilmelidir
-- Ya da `değişken_ismi: değer`şeklinde istediğiniz sırada verebilirsiniz
+- Ya da `değişken_ismi: değer` şeklinde istediğiniz sırada verebilirsiniz
 
 		return &File{fd: fd, name: name}
 
-- Aynı şekilde array, slice, map gibi veri türlerinede oluşturabilirsiniz
+- Aynı şekilde array, slice, map gibi veri türlerinide oluşturabilirsiniz
 
 		a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
 		s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
@@ -367,7 +367,7 @@
 
 ## `make` ile bellek ayırma
 
-- `make(T, args)`, `new(T)`'den farklı olarak ayırdığı alını ilkler ve T tipinde bir değer döner(\*T değil)
+- `make(T, args)`, `new(T)`'den farklı olarak ayırdığı alanı ilkler ve T tipinde bir değer döner(\*T değil)
 - Örneğin:
 	
 		make([]int, 10, 100)
@@ -389,11 +389,11 @@
 
 ## Array
 
-- Array'ler nekadar hafızaya ihtiyaç duyulduğu bilinen durumlarda kullanışlı olabilirler
+- Array'ler ne kadar hafızaya ihtiyaç duyulduğu bilinen durumlarda kullanışlı olabilirler
 - Genelde bir sonraki bölümde anlatılacak slice veri yapısının alt yapısını oluştururlar
 - C'deki array'lerden farklıdırlar
-	* Array'ler birer değer olark tutulur. Bir array'i diğerini atamak, array'in kopyalanmasına neden olur
-	* Aynı şekilde bir fonksiyouna array verirseniz, fonksiyon array'in bir kopyasını alacaktır(pointer değil)
+	* Array'ler birer değer olarak tutulur. Bir array'i diğerine atamak, array'in kopyalanmasına neden olur
+	* Aynı şekilde bir fonksiyona array verirseniz, fonksiyon array'in bir kopyasını alacaktır(pointer değil)
 	* Array'lerin boyutu tiplerinin bir parçasıdır. Yani [10]int ile [20]int farklı türlerdir
 
 - C'deki gibi kullanmak isterseniz
