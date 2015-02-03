@@ -359,7 +359,7 @@
 
 		return &File{fd: fd, name: name}
 
-- Aynı şekilde array, slice, map gibi veri türlerinide oluşturabilirsiniz
+- Aynı şekilde array, slice, map gibi veri türlerini de oluşturabilirsiniz
 
 		a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
 		s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
