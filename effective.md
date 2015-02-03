@@ -412,4 +412,66 @@
 
 ## Slice
 
-//TODO
+- Slice'lar dinamik array'ler gibi düşünülebilir
+- Her slice arka tarafta bir array'e işaret eder
+- Bir slice'ı diğer bir slice'a atarsanız ikiside aynı array'a işaret edeceğinden kopyalanma olmaz
+- Aynı şekilde fonksiyona parametre olarak verilidiğinde adres olarak geçer
+- Arkadaki array'in kapasitesi kadar dinamik olarak boyutları ihtiyaca göre artabilir
+- Aşağıdaki kod parçasında `append` fonksiyonun nasıl çalıştığını  görebilirsiniz
+
+		func Append(slice, data[]byte) []byte {
+		    l := len(slice)
+		    if l + len(data) > cap(slice) {  // veri kapasiteden daha büyükse belleği arttır
+			// Gerekenin iki katı kadar alan ayır, gelcekte oluşabilecek ihtiyaçlar için
+			newSlice := make([]byte, (l+len(data))*2)
+			// copy, built-in bir fonskiyondur ve her slice türü için kullanılabilir.
+			copy(newSlice, slice)
+			slice = newSlice
+		    }
+		    slice = slice[0:l+len(data)]
+		    for i, c := range data {
+			slice[l+i] = c
+		    }
+		    return slice
+		}
+
+- Slice'ler adress bazlı çalıştıkları için yeni oluşan slice'in fonksiyondan dönülmesi gerekiyor
+
+## İki boyutlu slice'lar
+
+- Go'daki array ve slice veri türleri tek boyutludur
+- Çoklu boyutta slice veya array tanımlamak için:
+		
+		type Transform [3][3]float64  // 3x3 array.
+		type LinesOfText [][]byte     // slice		
+
+- Slice'ların boyutları tuttukları verilere göre değiştiği için iç içe olan slice'ların boyutları farklı olabilir
+
+		text := LinesOfText{
+			[]byte("Now is the time"),
+			[]byte("for all good gophers"),
+			[]byte("to bring some fun to the party."),
+		}
+
+- İki boyutlu slice'lar için bellek ayırma işlemini iki şekilde yapabilirsiniz
+- İlk olarak en dıştaki slice için ayırıp, sonrasında her satır için tek tek ayırırsınız
+
+		// En dıştaki slice için bellek ayır.
+		picture := make([][]uint8, YSize) // her y birim için bir satır.
+		// Her satır için dolaş ve ayırma işlemini yap.
+		for i := range picture {
+			picture[i] = make([]uint8, XSize)
+		}
+
+- İkinci yol 
+
+		// En dıştaki slice için bellek ayır.
+		picture := make([][]uint8, YSize) // her y birim için bir satır.
+		// Bütün pixelleri tutması için büyük bir slice oluştur.
+		pixels := make([]uint8, XSize*YSize) // []uint8 tipinde resim [][]uint8 tipinde olduğu halde.
+		// Döngü ile dolaşıp pixels slice içindeki her satır için ayırma işlemini yap.
+		for i := range picture {
+			picture[i], pixels = pixels[:XSize], pixels[XSize:]
+		}
+
+
