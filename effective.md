@@ -474,4 +474,65 @@
 			picture[i], pixels = pixels[:XSize], pixels[XSize:]
 		}
 
+## Maps
+
+- Anahtar, değer ikilisini tutan veri yapısıdır
+- Slice hariç eşitlik özelliğini destekleyen bütün veri tipleri anahtar olarak kullanılabilir
+- Map'lerde Slice'lar gibi arka planda bir veri yapısını gösterirler
+- Bundan dolayı bir fonksiyona map geçirilirse yapılan  değişiklik kalıcı olur
+- Tanımlama:
+
+		var timeZone = map[string]int{
+		    "UTC":  0*60*60,
+		    "EST": -5*60*60,
+		    "CST": -6*60*60,
+		    "MST": -7*60*60,
+		    "PST": -8*60*60,
+		}
+şeklinde yapılabilir
+- Değer atasması yapma ya da anahtara gelen değeri çekme işkemi slice ve array'lerde olduğu gibi yapılabilir
+
+		offset := timeZone["EST"]
+
+- Eğer map'te olmayan bir anahtar için değer çekilmeye çalışırsanız, veri türüne göre sıfır tipi dönecektir(Integer ise 0, string ise "" gibi)
+- Set veri türü değer kümesi `bool` tipli olan bir map ile gerçeklenebilir
+
+
+		attended := map[string]bool{
+		    "Ann": true,
+		    "Joe": true,
+		    ...
+		}
+
+		if attended[person] { // eğer map'te person diye biri yoksa false dönecektir
+		    fmt.Println(person, "toplantıdaydı")
+		}
+
+- Bazen anahtara karşılık gelen değer boş string("") ya da sıfır olabilir
+- Bu durumda anahtar olmadığı için bir sıfır tipi dönüyor yoksa gerçekten tutulan değer mi sıfır diye bir ayrım yapmanız gerekcektir
+
+		var seconds int
+		var ok bool
+		seconds, ok = timeZone[tz]
+
+- Bu yapıya "virgül, ok" deniyor
+- Eğer `tz` diye bir anahtar var ise ok true olacaktır, aksi takdirde false
+- Aşağıdaki örnekte fonksiyon içinde nasıl kullanıldığını görebilirsiniz
+
+		func offset(tz string) int {
+		   if seconds, ok := timeZone[tz]; ok {
+			return seconds
+		    }
+		    log.Println("Bilinmeyen zaman dilimi:", tz)
+		    return 0
+		}
+- Değeri önemsemeksizin test amaçlı sorgulamak için `_` öperatörünü kullanabilirsiniz
+		
+		_, present := timeZone[tz]
+
+- Map'ten bir değer silmek içinde yerel `delete` fonksiyonunu kullanabilirsiniz
+
+		delete(timeZone, "PDT")
+
+
 
